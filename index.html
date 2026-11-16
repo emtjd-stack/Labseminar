@@ -150,6 +150,18 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
 .heads .stat .n{font-size:clamp(28px,6.4vh,64px)}
 .heads .stat .l{font-size:clamp(12px,1.9vh,18px);max-width:20ch}
 
+/* 3D interactivo */
+.cv3{position:relative;flex:none;width:min(48vw,calc(66vh*1.3));height:min(68vh,540px);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.cv3:active{cursor:grabbing}
+.cv3 canvas{position:absolute;inset:0;width:100%;height:100%}
+.hint3{position:absolute;left:50%;bottom:-2.2em;transform:translateX(-50%);font-size:12px;color:var(--mute);white-space:nowrap;pointer-events:none}
+.stage3{position:relative;flex:none;width:min(42vw,64vh);height:min(66vh,520px);perspective:1500px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.stage3:active{cursor:grabbing}
+.stack{position:absolute;left:50%;top:48%;width:0;height:0;transform-style:preserve-3d}
+.lay{position:absolute;--sz:min(34vh,30vw);left:calc(var(--sz)/-2);top:calc(var(--sz)/-2);width:var(--sz);height:var(--sz);border-radius:10px;border:1px solid rgba(255,255,255,.5);box-shadow:0 0 24px rgba(0,20,60,.45)}
+.lay span{position:absolute;left:8px;top:6px;font-size:clamp(9px,1.6vh,14px);font-weight:800;letter-spacing:.02em;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.lay.res{border-color:var(--yellow);box-shadow:0 0 40px rgba(240,200,0,.55)}
+
 /* separador entre partes */
 .sep{display:grid;gap:clamp(14px,2.6vh,28px);max-width:30ch}
 .sep .ln{height:3px;width:min(70vw,720px);background:linear-gradient(90deg,var(--yellow),rgba(240,200,0,0));transform-origin:left;transform:scaleX(0);transition:transform 1.8s var(--inout) .5s}
@@ -283,7 +295,7 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
 </section>
 
 <!-- 4 MÉTODO -->
-<section class="scene" data-t="Método">
+<section class="scene" id="s-metodo" data-t="Método">
   <div class="row" style="height:100%">
   <div class="grow" style="display:grid;gap:clamp(14px,2.8vh,28px)">
   <h2 class="k">Ocho capas. Un solo <em>mapa de resistencia</em>.</h2>
@@ -299,14 +311,14 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
     <div class="pstep rv" style="--i:10"><h3>Cost Connectivity</h3><p>Árbol de expansión mínima entre regiones.</p></div>
   </div>
   </div>
-  <div class="figwrap rvx"><div class="fig"><img data-zoom src="assets/fig2.jpg" alt="Variables estandarizadas en la escala de resistencia" style="height:auto;width:min(40vw,70vh);max-width:100%"></div><span class="zhint">Clic para ampliar</span></div>
+  <div class="rvx" style="flex:none"><div class="stage3" id="stage3"><div class="stack" id="stack"></div><span class="hint3">Arrastra para girar las capas</span></div></div>
   </div>
 </section>
 
 <!-- 4 PESOS -->
 <section class="scene dark" data-t="Pesos AHP">
   <h2 class="k">El <em style="color:var(--water)">agua</em> pesa más que la vegetación.</h2>
-  <div class="bars">
+  <div class="row"><div class="bars grow">
     <div class="bar rv" style="--i:2"><span>Infraestructura azul</span><div class="t"><i style="--w:100%;--c:var(--water);--k:0"></i></div><b>32,2 %</b></div>
     <div class="bar rv" style="--i:3"><span>Infraestructura verde</span><div class="t"><i style="--w:68%;--c:var(--green);--k:1"></i></div><b>21,9 %</b></div>
     <div class="bar rv" style="--i:4"><span><i>P. rubinus</i></span><div class="t"><i style="--w:34.5%;--k:2"></i></div><b>11,1 %</b></div>
@@ -315,6 +327,8 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
     <div class="bar rv" style="--i:7"><span>Vías arboladas</span><div class="t"><i style="--w:23.8%;--k:5"></i></div><b>7,7 %</b></div>
     <div class="bar rv" style="--i:8"><span>Elevación</span><div class="t"><i style="--w:14.7%;--k:6"></i></div><b>4,7 %</b></div>
     <div class="bar rv" style="--i:9"><span>Densidad poblacional</span><div class="t"><i style="--w:7.9%;--c:var(--warm);--k:7"></i></div><b>2,5 %</b></div>
+  </div>
+  <div class="rvx" style="flex:none;display:grid;justify-items:center;gap:8px"><div class="fig"><img data-zoom src="assets/fig2.jpg" alt="Variables estandarizadas en la escala de resistencia" style="height:auto;width:min(33vw,58vh);max-width:100%"></div><span class="phint">Las 8 capas estandarizadas. Clic para ampliar.</span></div>
   </div>
   <p class="sub rv" style="--i:11">La densidad poblacional funciona como restricción humana, no como atractor ecológico.</p>
 </section>
@@ -362,8 +376,20 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
   </div>
 </section>
 
-<!-- 7 ROBUSTEZ -->
-<section class="scene" data-t="Robustez">
+<!-- 7b RED EN 3D -->
+<section class="scene dark" id="s-relief" data-t="Red en 3D">
+  <div class="row" style="height:100%">
+    <div class="grow" style="display:grid;gap:clamp(14px,2.6vh,28px)">
+      <h2 class="k">La red, vista sobre el <em>relieve</em></h2>
+      <p class="lead rv" style="--i:2">Las rutas buscan los sectores de menor resistencia entre 2.008 y 2.554 m de altitud.</p>
+      <p class="sub rv" style="--i:3">Arrastra el modelo para girarlo.</p>
+    </div>
+    <div class="cv3 rvx" id="cv-relief"><canvas></canvas></div>
+  </div>
+</section>
+
+<!-- 8 ROBUSTEZ -->
+<section class="scene" id="s-robust" data-t="Robustez">
   <h2 class="k">Catorce escenarios. La red <em>casi no cambia</em>.</h2>
   <div class="row">
     <div class="grow" style="display:grid;gap:clamp(14px,2.6vh,28px)">
@@ -373,14 +399,17 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
       </div>
       <p class="lead rv" style="--i:4">Los <b>nodos</b> definen la topología. Los <b>pesos</b> solo ajustan el trazado local. Verificado también en ArcMap.</p>
     </div>
-    <div class="rvx" style="flex:none;display:grid;justify-items:center;gap:10px"><div class="fig mid"><img data-zoom src="assets/fig5.jpg" alt="Análisis de sensibilidad"></div><span class="phint">Clic para ampliar</span></div>
+    <div class="cv3 rvx" id="cv-robust"><canvas></canvas><span class="hint3">14 escenarios apilados: la amarilla es la ruta base</span></div>
   </div>
 </section>
 
 <!-- 8b DIFERENCIAS -->
 <section class="scene dark" data-t="Diferencias entre escenarios">
   <h2 class="k">Cuando cambian los pesos, <em>solo se mueve el trazado</em></h2>
-  <div class="rvx" style="display:grid;justify-items:center;gap:10px;margin-top:0"><div class="fig wide"><img data-zoom src="assets/fig6.jpg" alt="Diferencias entre la ruta base y los escenarios"></div><span class="phint">Gris: tramo compartido con la ruta base. Clic para ampliar.</span></div>
+  <div class="row" style="justify-content:center;align-items:flex-start">
+    <div class="rvx" style="display:grid;justify-items:center;gap:8px"><div class="fig"><img data-zoom src="assets/fig5.jpg" alt="Análisis de sensibilidad" style="height:auto;width:min(44vw,60vh*1.5)"></div><span class="phint">Pesos de cada escenario y solapamiento con la ruta base</span></div>
+    <div class="rvx" style="display:grid;justify-items:center;gap:8px"><div class="fig"><img data-zoom src="assets/fig6.jpg" alt="Diferencias entre la ruta base y los escenarios" style="height:auto;width:min(44vw,60vh*1.5)"></div><span class="phint">Gris: tramo compartido con la ruta base</span></div>
+  </div>
 </section>
 
 <!-- 8 CONCLUSIONES + REEL 1 -->
@@ -396,11 +425,15 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
 </section>
 
 <!-- 9 COAUTORÍA -->
-<section class="scene" data-t="Coautoría">
-  <h2 class="k">Cooperación interinstitucional que <em>fortalece</em> la investigación</h2>
-  <div class="duo rv" style="--i:2"><span>UTN</span><span class="line"></span><span>ESPOL</span></div>
-  <p class="lead rv" style="--i:4">Dos universidades ecuatorianas, un mismo modelo de conectividad.</p>
-  <div class="sub rv" style="--i:5">Universidad Técnica del Norte y Escuela Superior Politécnica del Litoral</div>
+<section class="scene" id="s-coop" data-t="Coautoría">
+  <div class="row" style="height:100%">
+    <div class="grow" style="display:grid;gap:clamp(14px,2.6vh,28px)">
+      <h2 class="k">Cooperación interinstitucional que <em>fortalece</em> la investigación</h2>
+      <p class="lead rv" style="--i:4">Dos universidades ecuatorianas, un mismo modelo de conectividad.</p>
+      <div class="sub rv" style="--i:5">Universidad Técnica del Norte y Escuela Superior Politécnica del Litoral</div>
+    </div>
+    <div class="cv3 rvx" id="cv-coop"><canvas></canvas><span class="hint3">Arrastra para girar</span></div>
+  </div>
 </section>
 
 <!-- SEPARADOR -->
@@ -472,7 +505,7 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
 <div id="lb"><span>Clic o Esc para cerrar</span><img alt=""></div>
 
 <div class="hud">
-  <span id="count">1 / 16</span>
+  <span id="count">1 / 17</span>
   <div class="segs" id="segs"></div>
   <span class="part" id="part"></span>
   <span id="timer" title="Tecla T">00:00</span>
@@ -588,6 +621,134 @@ initNet(document.getElementById('net2'),document.getElementById('s-close'));
   scene._off=function(){cancelAnimationFrame(raf)};
   scene.addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY});
   window.addEventListener('resize',function(){if(scene.classList.contains('active'))build()});
+})();
+
+/* ================= MOTOR 3D (canvas, proyección en perspectiva, arrastrar para orbitar) ================= */
+function Engine3D(scene,host,cfg){
+  var cv=host.querySelector('canvas'),ctx=cv.getContext('2d'),dpr=Math.min(window.devicePixelRatio||1,2),
+      W=0,H=0,R=1,raf=0,t0=0,last=0,yaw=cfg.yaw||0.6,pitch=cfg.pitch||0.5,vy=0,drag=false,lx=0,ly=0,idle=0;
+  function size(){W=host.clientWidth;H=host.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);R=Math.min(W,H)*(cfg.zoom||.4)}
+  function P(p){
+    var cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+    var x1=p[0]*cy+p[2]*sy,z1=-p[0]*sy+p[2]*cy,y2=p[1]*cp-z1*sp,z2=p[1]*sp+z1*cp,s=3.2/(3.2+z2);
+    return [W/2+x1*s*R,H/2-y2*s*R,s,z2];
+  }
+  function alpha(z){return Math.max(.2,Math.min(1,.85-z*.28))}
+  function poly(pts,pr){ // dibuja polilínea recortada al progreso pr (0..1)
+    var q=pts.map(P),L=[],tot=0,i;
+    for(i=1;i<q.length;i++){var l=Math.hypot(q[i][0]-q[i-1][0],q[i][1]-q[i-1][1]);L.push(l);tot+=l}
+    var need=tot*pr,acc=0;ctx.beginPath();ctx.moveTo(q[0][0],q[0][1]);
+    for(i=1;i<q.length;i++){
+      if(acc+L[i-1]<=need){ctx.lineTo(q[i][0],q[i][1]);acc+=L[i-1]}
+      else{var f=(need-acc)/L[i-1];ctx.lineTo(q[i-1][0]+(q[i][0]-q[i-1][0])*f,q[i-1][1]+(q[i][1]-q[i-1][1])*f);break}
+    }
+    ctx.stroke();return {q:q,tot:tot};
+  }
+  function frame(ts){
+    var t=RM?99999:ts-t0,dt=Math.min(50,ts-last);last=ts;
+    if(!drag){idle+=dt;if(!RM){yaw+=vy;vy*=.94;if(idle>1500||Math.abs(vy)<.0004)yaw+=(cfg.spin||.00018)*dt}}
+    ctx.clearRect(0,0,W,H);
+    if(cfg.grid){ctx.lineWidth=1;cfg.grid.forEach(function(l){var a=0;ctx.strokeStyle='rgba(120,170,255,.2)';poly(l,Math.min(1,t/1200))})}
+    var near=[];
+    cfg.edges.forEach(function(e){
+      var pr=Math.max(0,Math.min(1,(t-e.st)/(e.dur||600)));pr=1-Math.pow(1-pr,3);if(pr<=0)return;
+      var mz=P(e.pts[Math.floor(e.pts.length/2)])[3];
+      ctx.strokeStyle=e.c;ctx.globalAlpha=(e.al||1)*alpha(mz);ctx.lineWidth=e.w||1.5;
+      if(e.glow){ctx.shadowColor=e.c;ctx.shadowBlur=8}
+      var r=poly(e.pts,pr);ctx.shadowBlur=0;ctx.globalAlpha=1;
+      if(e.pulse&&pr>=1&&!RM){var q=((t*.0003+(e.ph||0))%1)*r.tot,acc=0;
+        for(var i=1;i<r.q.length;i++){var l=Math.hypot(r.q[i][0]-r.q[i-1][0],r.q[i][1]-r.q[i-1][1]);
+          if(acc+l>=q){var f=(q-acc)/l;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(r.q[i-1][0]+(r.q[i][0]-r.q[i-1][0])*f,r.q[i-1][1]+(r.q[i][1]-r.q[i-1][1])*f,2.4,0,6.28);ctx.fill();break}acc+=l}}
+    });
+    var N=cfg.nodes.map(function(n,i){var p=P(n.p);return {p:p,n:n,i:i}}).sort(function(a,b){return b.p[3]-a.p[3]});
+    N.forEach(function(o){var k=Math.min(1,Math.max(0,(t-(o.n.st||o.i*35))/500));if(k<=0)return;
+      ctx.globalAlpha=alpha(o.p[3]);ctx.fillStyle=o.n.c;ctx.beginPath();ctx.arc(o.p[0],o.p[1],(o.n.r||4)*o.p[2]*k,0,6.28);ctx.fill()});
+    ctx.globalAlpha=1;
+    (cfg.labels||[]).forEach(function(l){var p=P(l.p),k=Math.min(1,Math.max(0,(t-(l.st||1500))/600));if(k<=0)return;
+      ctx.globalAlpha=k*Math.max(.55,alpha(p[3]));ctx.fillStyle=l.c||'#fff';ctx.font='800 '+((l.f||13)*Math.max(.8,p[2]))+'px "Plus Jakarta Sans",sans-serif';ctx.textAlign='center';ctx.fillText(l.t,p[0],p[1]);ctx.globalAlpha=1});
+    if(!RM)raf=requestAnimationFrame(frame);
+  }
+  host.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;idle=0;try{host.setPointerCapture(e.pointerId)}catch(_){}});
+  host.addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;yaw+=dx*.008;vy=dx*.0016;pitch=Math.max(-.15,Math.min(1.3,pitch+dy*.006));if(RM)frame(performance.now())});
+  host.addEventListener('pointerup',function(){drag=false;idle=0});
+  host.addEventListener('pointercancel',function(){drag=false});
+  scene._on=function(){size();t0=performance.now();last=t0;cancelAnimationFrame(raf);raf=requestAnimationFrame(frame)};
+  scene._off=function(){cancelAnimationFrame(raf)};
+  window.addEventListener('resize',function(){if(scene.classList.contains('active'))size()});
+}
+function gaussian(r){var u=0,v=0;while(!u)u=r();v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*v)}
+
+/* relieve: la red real (50 nodos, 49 enlaces) sobre un terreno con altitud */
+(function(){
+  var G=makeNodes();
+  function el(mx,my){var e=.15+(mx-.45)*.9+Math.exp(-(Math.pow(mx-.76,2)+Math.pow(my-.78,2))/.012)*.5-Math.exp(-(Math.pow(mx-.8,2)+Math.pow(my-.3,2))/.02)*.35;return Math.max(0,Math.min(1,e))}
+  function W3(mx,my,lift){return [(mx-.62)*2.5,(el(mx,my)-.35)*.95+(lift||0),(.5-my)*2.1]}
+  var nodes=G.P.map(function(p,i){return {p:W3(p[0],p[1],.04),c:G.T[i]==='w'?'#4a9bff':'#34c37b',r:5,st:300+i*40}});
+  var edges=G.E.map(function(e,i){return {pts:[nodes[e[0]].p,nodes[e[1]].p],c:'#F0C800',w:2.2,st:900+i*75,dur:650,pulse:true,glow:true,ph:i*.17}});
+  var grid=[],i,j;
+  for(i=0;i<=14;i++){var a=[],b=[];for(j=0;j<=26;j++){a.push(W3(.2+i*.0571,.05+j*.0346));b.push(W3(.2+j*.0308,.05+i*.0643))}grid.push(a);grid.push(b)}
+  var labels=[{p:[nodes[2].p[0],nodes[2].p[1]+.2,nodes[2].p[2]],t:'Yahuarcocha',c:'#9fd0ff',st:2600},{p:[nodes[11].p[0]-.25,nodes[11].p[1]+.18,nodes[11].p[2]],t:'Tahuando',c:'#9fd0ff',st:3000},{p:[nodes[20].p[0],nodes[20].p[1]+.22,nodes[20].p[2]],t:'Guayabillas',c:'#a6f0c6',st:3400}];
+  Engine3D(document.getElementById('s-relief'),document.getElementById('cv-relief'),{nodes:nodes,edges:edges,grid:grid,labels:labels,yaw:.5,pitch:.62,zoom:.36});
+})();
+
+/* robustez: 14 escenarios apilados, misma topología, trazado local distinto */
+(function(){
+  var G=makeNodes(),r=rng(99),nodes=[],edges=[],K=14,base=6,k,i;
+  function W2(p,y){return [(p[0]-.62)*2.3,y,(.5-p[1])*2]}
+  G.P.forEach(function(p,i){nodes.push({p:W2(p,(base-6.5)*.12),c:G.T[i]==='w'?'#4a9bff':'#34c37b',r:4.5,st:400+i*30})});
+  for(k=0;k<K;k++){var y=(k-6.5)*.12,isb=k===base;
+    G.E.forEach(function(e,i){var a=W2(G.P[e[0]],y),b=W2(G.P[e[1]],y),m=[(a[0]+b[0])/2,y,(a[2]+b[2])/2];
+      if(!isb){m[0]+=(r()-.5)*.1;m[2]+=(r()-.5)*.1}
+      edges.push({pts:[a,m,b],c:isb?'#F0C800':'rgba(110,185,255,1)',w:isb?2.4:1,al:isb?1:.38,st:600+k*260+i*9,dur:700,glow:isb,pulse:isb,ph:i*.13})})}
+  Engine3D(document.getElementById('s-robust'),document.getElementById('cv-robust'),{nodes:nodes,edges:edges,yaw:.55,pitch:.55,zoom:.4,spin:.00014});
+})();
+
+/* cooperación: dos instituciones, dos nubes de nodos unidas por puentes */
+(function(){
+  var r=rng(31),nodes=[],edges=[],A=[],B=[],i,j;
+  function cl(arr,cx,col){for(i=0;i<26;i++){var p=[cx+gaussian(r)*.2,gaussian(r)*.2,gaussian(r)*.2];arr.push(nodes.length);nodes.push({p:p,c:col,r:5,st:300+i*50+(cx>0?500:0)})}}
+  cl(A,-.8,'#4a9bff');cl(B,.8,'#F0C800');
+  function knn(arr,col){arr.forEach(function(a,ai){var d=arr.filter(function(b){return b!==a}).map(function(b){var p=nodes[a].p,q=nodes[b].p;return [b,Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2])]}).sort(function(x,y){return x[1]-y[1]}).slice(0,2);
+    d.forEach(function(x){edges.push({pts:[nodes[a].p,nodes[x[0]].p],c:col,w:1.1,al:.65,st:900+ai*40,dur:500})})})}
+  knn(A,'#4a9bff');knn(B,'#F0C800');
+  var pairs=[];A.forEach(function(a){B.forEach(function(b){var p=nodes[a].p,q=nodes[b].p;pairs.push([a,b,Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2])])})});
+  pairs.sort(function(x,y){return x[2]-y[2]});var used={},n=0;
+  pairs.forEach(function(p){if(n>=10||used[p[0]]||used[p[1]])return;used[p[0]]=used[p[1]]=1;edges.push({pts:[nodes[p[0]].p,nodes[p[1]].p],c:'#ffffff',w:2.6,st:2600+n*380,dur:900,glow:true,pulse:true,ph:n*.2});n++});
+  Engine3D(document.getElementById('s-coop'),document.getElementById('cv-coop'),{nodes:nodes,edges:edges,labels:[{p:[-.8,.62,0],t:'UTN',c:'#9fd0ff',f:20,st:800},{p:[.8,.62,0],t:'ESPOL',c:'#F0C800',f:20,st:1200}],yaw:.3,pitch:.3,zoom:.42,spin:.00022});
+})();
+
+/* método: pila 3D de las 8 capas que se fusionan en una superficie de resistencia */
+(function(){
+  var scene=document.getElementById('s-metodo'),stage=document.getElementById('stage3'),stack=document.getElementById('stack');
+  var D=[['NDVI','radial-gradient(circle at 30% 40%,rgba(130,240,160,.95),transparent 45%),radial-gradient(circle at 75% 70%,rgba(80,200,120,.85),transparent 40%),rgba(10,80,50,.78)'],
+   ['Elevación','linear-gradient(100deg,rgba(150,105,70,.85),rgba(245,235,215,.9))'],
+   ['Infraestructura verde','radial-gradient(circle at 25% 30%,#34c37b 0 12%,transparent 13%),radial-gradient(circle at 70% 60%,#34c37b 0 16%,transparent 17%),radial-gradient(circle at 45% 85%,#34c37b 0 9%,transparent 10%),rgba(15,60,45,.72)'],
+   ['Infraestructura azul','radial-gradient(ellipse at 78% 28%,#4a9bff 0 24%,transparent 25%),linear-gradient(80deg,transparent 52%,#4a9bff 52% 57%,transparent 58%),rgba(10,45,110,.72)'],
+   ['P. rubinus','radial-gradient(circle at 20% 70%,#F0C800 0 3.5%,transparent 4.5%),radial-gradient(circle at 55% 40%,#F0C800 0 3.5%,transparent 4.5%),radial-gradient(circle at 80% 78%,#F0C800 0 3.5%,transparent 4.5%),rgba(35,35,85,.72)'],
+   ['E. thula','radial-gradient(circle at 75% 25%,#fff 0 3.5%,transparent 4.5%),radial-gradient(circle at 70% 38%,#fff 0 3.5%,transparent 4.5%),radial-gradient(circle at 30% 60%,#fff 0 3.5%,transparent 4.5%),rgba(20,50,95,.72)'],
+   ['Vías arboladas','repeating-linear-gradient(35deg,transparent 0 22px,rgba(125,255,176,.9) 22px 25px),rgba(10,60,40,.7)'],
+   ['Densidad poblacional','radial-gradient(circle at 35% 65%,rgba(255,107,94,.95),transparent 50%),radial-gradient(circle at 72% 35%,rgba(255,160,90,.8),transparent 40%),rgba(65,20,35,.72)']];
+  var els=D.map(function(d){var e=document.createElement('div');e.className='lay';e.style.background=d[1];e.innerHTML='<span>'+d[0]+'</span>';stack.appendChild(e);return e});
+  var res=document.createElement('div');res.className='lay res';res.style.background='radial-gradient(circle at 78% 30%,#34c37b 0 14%,transparent 40%),radial-gradient(circle at 30% 75%,#ff6b5e,transparent 55%),linear-gradient(135deg,#34c37b,#F0C800 55%,#ff6b5e)';res.innerHTML='<span>Resistencia 5 a 100</span>';stack.appendChild(res);
+  var raf=0,t0=0,rz=-35,rx=62,drag=false,lx=0,ly=0,vy=0,idle=0,last=0;
+  function ease(x){x=Math.max(0,Math.min(1,x));return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2}
+  function frame(ts){
+    var t=RM?99999:ts-t0,dt=Math.min(50,ts-last);last=ts;
+    if(!drag){idle+=dt;if(!RM){rz+=vy;vy*=.94;if(idle>1500||Math.abs(vy)<.02)rz+=.012*dt}}
+    var u=((t-2800)/1000)%16;if(t<2800)u=0;
+    var g=u<5?1:u<7.5?1-ease((u-5)/2.5):u<11?0:u<13.5?ease((u-11)/2.5):1;
+    var S=parseFloat(getComputedStyle(els[0]).width)*.2,ro=1-Math.max(0,Math.min(1,g*5));
+    els.forEach(function(e,i){var ap=Math.max(0,Math.min(1,(t-500-i*320)/800));ap=1-Math.pow(1-ap,3);
+      var z=(i-3.5)*S*g-(1-ap)*S*4;e.style.transform='translateZ('+z.toFixed(1)+'px)';e.style.opacity=(ap*(1-ro*.9)).toFixed(3)});
+    res.style.transform='translateZ('+(4.5*S*g+2)+'px)';res.style.opacity=ro.toFixed(3);
+    stack.style.transform='rotateX('+rx.toFixed(1)+'deg) rotateZ('+rz.toFixed(1)+'deg)';
+    if(!RM)raf=requestAnimationFrame(frame);
+  }
+  stage.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;idle=0;try{stage.setPointerCapture(e.pointerId)}catch(_){}});
+  stage.addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;rz+=dx*.45;vy=dx*.09;rx=Math.max(20,Math.min(88,rx-dy*.35));if(RM)frame(performance.now())});
+  stage.addEventListener('pointerup',function(){drag=false;idle=0});stage.addEventListener('pointercancel',function(){drag=false});
+  scene._on=function(){t0=performance.now();last=t0;cancelAnimationFrame(raf);raf=requestAnimationFrame(frame)};
+  scene._off=function(){cancelAnimationFrame(raf)};
 })();
 
 /* ---- reels ---- */
