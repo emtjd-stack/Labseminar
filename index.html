@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Conectividad ecológica urbana en Ibarra</title>
 <meta name="description" content="Ponencia: conectividad ecológica urbana en Ibarra (Least-Cost Path y AHP) y aprendizaje basado en problemas con herramientas gratuitas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -170,6 +170,22 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
 .part{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--yellow);min-width:9em;text-align:center;white-space:nowrap}
 .scene>*:not(.net){position:relative;z-index:1}
 
+/* panorama 360 */
+#s-pano{padding:0}
+#s-pano .panohost{position:absolute;inset:0;z-index:0;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;background:#02173a url(assets/ibarra360.jpg) center/cover}
+#s-pano .panohost.gl{background:#02173a}
+#s-pano .panohost:active{cursor:grabbing}
+#s-pano canvas{position:absolute;inset:0;width:100%;height:100%}
+#s-pano .panoscrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,18,43,.72),rgba(0,18,43,0) 42%),linear-gradient(0deg,rgba(0,18,43,.7),rgba(0,18,43,0) 20%)}
+#s-pano .panotxt{position:absolute;left:clamp(24px,6vw,96px);top:clamp(22px,5vh,56px);right:24px;z-index:2;pointer-events:none;display:grid;gap:clamp(8px,1.6vh,16px)}
+#s-pano .panotxt .lead{font-size:clamp(15px,2.6vh,26px)}
+#s-pano .panoctl{position:absolute;right:clamp(16px,3vw,40px);bottom:clamp(64px,10vh,88px);z-index:3;display:flex;gap:6px;padding:5px;border-radius:999px;background:rgba(0,18,43,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line)}
+#s-pano .panoctl button{border:0;background:none;padding:.6em 1.1em;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer;min-height:36px}
+#s-pano .panoctl button.on{background:var(--yellow);color:var(--ink)}
+#s-pano .pls{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+#s-pano .pl{position:absolute;left:0;top:0;font-size:clamp(11px,1.8vh,15px);font-weight:700;letter-spacing:.02em;padding:.3em .75em .3em 1.3em;border-radius:999px;background:rgba(0,18,43,.62);border:1px solid rgba(255,255,255,.3);white-space:nowrap;opacity:0;transition:opacity .4s}
+#s-pano .pl::before{content:"";position:absolute;left:.5em;top:50%;width:.5em;height:.5em;margin-top:-.25em;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 4px rgba(240,200,0,.3)}
+
 /* ================= REEL (teléfono) ================= */
 .phonewrap{flex:none;display:grid;justify-items:center;gap:10px}
 .phone{position:relative;height:min(74vh,700px);aspect-ratio:9/16;border-radius:34px;overflow:hidden;cursor:pointer;
@@ -238,13 +254,55 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
 #timer.on{opacity:1}#timer.warn{color:var(--yellow)}#timer.over{color:var(--warm)}
 #count{font-variant-numeric:tabular-nums}
 
+/* ===== móvil y tablet vertical ===== */
+.hud{padding-left:max(clamp(16px,3vw,40px),env(safe-area-inset-left));padding-right:max(clamp(16px,3vw,40px),env(safe-area-inset-right));padding-bottom:max(14px,env(safe-area-inset-bottom))}
+@media (pointer:coarse){.nav button{width:46px;height:46px}.segs button{height:30px}.segs button::before{top:13px}}
 @media (max-width:860px){
-  .row{flex-direction:column;align-items:stretch}
-  .scene{overflow-y:auto;justify-content:flex-start}
-  .figwrap{height:46vh}.fig img{height:46vh}
+  .hud{background:linear-gradient(0deg,rgba(0,18,43,.85),rgba(0,18,43,0));padding-top:22px}
+  .segs,.part,#timer{display:none}
+  #count{font-size:13px;font-weight:700;margin-right:auto}
+  .scene{padding:max(26px,env(safe-area-inset-top)) 22px 96px;overflow-y:auto;overflow-x:hidden;justify-content:flex-start;justify-content:safe center;-webkit-overflow-scrolling:touch;gap:18px}
+  .scene .row{flex-direction:column;align-items:stretch;height:auto!important;gap:22px}
+  h1{font-size:clamp(32px,10.4vw,54px);max-width:none}
+  h2{font-size:clamp(27px,8vw,46px);max-width:none}
+  .lead{font-size:clamp(16px,4.5vw,24px);max-width:none}
+  .sub{font-size:clamp(14px,3.9vw,20px)}
+  .stat .n{font-size:clamp(36px,12vw,64px)}.stat .l{font-size:clamp(13px,3.7vw,18px)}
+  .stats{grid-template-columns:1fr 1fr}
+  .heads .stats{grid-template-columns:1fr 1fr}.heads .stat .n{font-size:clamp(28px,9vw,48px)}
+  .chip{font-size:13px}
+  .pstep h3{font-size:18px}.pstep p{font-size:14px}
+  .figwrap{height:auto;padding-bottom:2.2em}.fig img{height:auto;max-height:52vh;width:auto;max-width:100%}
+  .tri{flex-direction:column;align-items:center}.tri .fig img{height:auto;max-height:44vh}
+  .fig.wide img{max-width:100%}.fig.mid img{width:auto;max-width:100%;max-height:42vh}
   .tgrid,.pipe{grid-template-columns:1fr}
-  .bar{grid-template-columns:100px 1fr 3.6em}
-  .phone{height:56vh}
+  .bar{grid-template-columns:minmax(92px,34%) 1fr 3.4em;gap:8px;font-size:14px}.bar .t{height:10px}
+  .cv3{width:100%;height:min(46vh,420px);margin-bottom:2em}
+  .stage3{width:100%;height:min(46vh,420px)}.lay{--sz:min(30vh,56vw)}
+  .dots{flex:none;width:min(300px,70vw);margin:0 auto}
+  .duo{font-size:clamp(30px,9vw,60px)}
+  .tfeat h3{font-size:22px}.trow b{font-size:16px}.trow span{font-size:13px}
+  .btn{font-size:15px}
+  .phone{height:min(60vh,520px);margin:0 auto}
+  .zhint,.hint3{font-size:12px}
+  .core{font-size:16px}
+  #s-pano .panoctl{bottom:84px;right:16px}
+  .fig.wide,.fig.mid{display:block;width:100%}.fig.wide img,.fig.mid img{width:100%;max-height:none}
+  .tri .fig{display:block;width:min(100%,380px)}.tri .fig img{width:100%;max-height:none}
+  .big{font-size:clamp(34px,min(11vh,19cqw),120px)}.phone{container-type:inline-size}
+  #s-q{justify-content:flex-start;padding-top:18vh}
+  .scene .row>.rvx{width:100%}.scene .row>.rvx .fig{display:block;width:100%}.scene .row>.rvx .fig img{width:100%!important;max-height:none}
+  .sep{max-width:none}
+  .heads{gap:14px}
+}
+@media (max-width:860px) and (orientation:landscape){
+  .scene{padding:16px 22px 76px}
+  .scene .row{flex-direction:row}
+}
+@media (min-width:861px) and (max-width:1100px) and (orientation:portrait){
+  .scene .row{flex-direction:column;align-items:stretch;height:auto!important}
+  .figwrap{height:auto}.fig img{height:auto;max-height:48vh}
+  .cv3{width:100%;height:min(46vh,560px)}.stage3{width:100%;height:min(46vh,560px)}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01s!important;animation-delay:0s!important;transition-duration:.01s!important;transition-delay:0s!important}
@@ -265,6 +323,18 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
     <span>Andrés Velastegui-Montoya, ESPOL</span>
     <span>Gabriel Jácome-Aguirre, UTN, GEOMA, Consejero GRSS</span>
   </div>
+</section>
+
+<!-- 1b PANORAMA 360 -->
+<section class="scene dark" id="s-pano" data-t="Ibarra a 360°">
+  <div class="panohost" data-noswipe><canvas id="cv-pano"></canvas><div class="pls" id="pls"></div></div>
+  <div class="panoscrim"></div>
+  <div class="panotxt">
+    <span class="eyebrow rv" style="--i:0">Ibarra, Imbabura</span>
+    <h2 class="k">Ibarra, vista a <em>360°</em></h2>
+    <p class="lead rv" style="--i:2" id="panohint">Arrastra para mirar alrededor.</p>
+  </div>
+  <div class="panoctl" data-noswipe><button id="pm-planet" type="button">Planeta</button><button id="pm-flat" type="button" class="on">Panorama</button></div>
 </section>
 
 <!-- 2 RETO -->
@@ -505,7 +575,7 @@ canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
 <div id="lb"><span>Clic o Esc para cerrar</span><img alt=""></div>
 
 <div class="hud">
-  <span id="count">1 / 17</span>
+  <span id="count">1 / 18</span>
   <div class="segs" id="segs"></div>
   <span class="part" id="part"></span>
   <span id="timer" title="Tecla T">00:00</span>
@@ -599,11 +669,11 @@ initNet(document.getElementById('net2'),document.getElementById('s-close'));
   var scene=document.getElementById('s-q'),cv=document.getElementById('qcv'),ctx=cv.getContext('2d'),raf=0,t0=0,W=0,H=0,pts=[],dpr=Math.min(window.devicePixelRatio||1,2),mx=0,my=0;
   function build(){
     W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    var s=Math.min(H*.92,W*.5),o=document.createElement('canvas');o.width=o.height=240;var c=o.getContext('2d');
+    var por=W<H*.9,s=por?Math.min(W*.7,H*.36):Math.min(H*.92,W*.5),o=document.createElement('canvas');o.width=o.height=240;var c=o.getContext('2d');
     c.fillStyle='#fff';c.textAlign='center';c.textBaseline='middle';c.font='800 230px "Plus Jakarta Sans",Arial,sans-serif';c.fillText('?',120,128);
     var d=c.getImageData(0,0,240,240).data,r=rng(11),T=[];
     for(var y=0;y<240;y+=7)for(var x=0;x<240;x+=7)if(d[(y*240+x)*4+3]>140)T.push([x/240,y/240]);
-    var ox=W*.74-s/2,oy=H*.5-s/2;
+    var ox=(por?W*.5:W*.74)-s/2,oy=(por?H*.73:H*.5)-s/2;
     pts=T.map(function(t,i){return {tx:ox+t[0]*s,ty:oy+t[1]*s,x:r()*W,y:r()*H,ph:r()*6.28,w:i%5===0,del:r()*900}});
   }
   function frame(ts){
@@ -751,6 +821,91 @@ function gaussian(r){var u=0,v=0;while(!u)u=r();v=r();return Math.sqrt(-2*Math.l
   scene._off=function(){cancelAnimationFrame(raf)};
 })();
 
+/* ---- panorama 360: planeta -> panorama (WebGL) ---- */
+(function(){
+  var scene=document.getElementById('s-pano'),host=scene.querySelector('.panohost'),cv=document.getElementById('cv-pano'),
+      pls=document.getElementById('pls'),bP=document.getElementById('pm-planet'),bF=document.getElementById('pm-flat'),hint=document.getElementById('panohint');
+  var touch=window.matchMedia('(pointer:coarse)').matches;
+  hint.textContent=touch?'Desliza para mirar alrededor. Pellizca para acercar.':'Arrastra para mirar alrededor. Rueda para acercar.';
+  var gl=null;try{gl=cv.getContext('webgl',{antialias:false,alpha:false})||cv.getContext('experimental-webgl')}catch(e){}
+  var LB=[{t:'Laguna de Yahuarcocha',u:.065,v:.545},{t:'Volcán Imbabura',u:.4725,v:.455},{t:'Ciudad de Ibarra',u:.40,v:.80},{t:'Valle del Chota',u:.86,v:.50}];
+  var lbEls=LB.map(function(l){var e=document.createElement('div');e.className='pl';e.textContent=l.t;pls.appendChild(e);return e});
+  var S={f:2,z:3.2,tilt:1.5708,yaw:0},W=1,H=1,asp=1,raf=0,last=0,tw=null,drag=null,vel=0,idle=0,introT=0,loaded=false,U={};
+  function goalPano(){return {f:1,z:asp<1?1.05:.78,tilt:.42,yaw:-.5}}
+  function goalPlanet(){return {f:2,z:asp<1?4.4:3.2,tilt:1.5708}}
+  function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+  function tween(g,dur){var b={f:g.f,z:g.z,tilt:g.tilt,yaw:S.yaw};if(g.yaw!==undefined){b.yaw=g.yaw+6.2831853*Math.round((S.yaw-g.yaw)/6.2831853)}tw={a:{f:S.f,z:S.z,tilt:S.tilt,yaw:S.yaw},b:b,t0:performance.now(),d:dur}}
+  function setMode(m,dur){
+    bP.classList.toggle('on',m==='p');bF.classList.toggle('on',m!=='p');
+    var g=m==='p'?goalPlanet():goalPano();if(RM){S.f=g.f;S.z=g.z;S.tilt=g.tilt;if(g.yaw!==undefined)S.yaw=g.yaw;tw=null}else tween(g,dur||2600);
+  }
+  bP.onclick=function(){clearTimeout(introT);setMode('p')};bF.onclick=function(){clearTimeout(introT);setMode('f')};
+  if(gl){
+    host.classList.add('gl');
+    var vs='attribute vec2 a;varying vec2 uv;void main(){uv=a;gl_Position=vec4(a,0.,1.);}';
+    var fs='#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\nvarying vec2 uv;uniform sampler2D T;uniform float asp,z,f,tilt,yaw;\n'+
+      'void main(){vec2 p=vec2(uv.x*asp,uv.y)*z;float r=length(p);float th=f*atan(r/f);vec3 d=r<1e-5?vec3(0.,0.,1.):vec3(sin(th)*p/r,cos(th));'+
+      'float ct=cos(tilt),st=sin(tilt);float y2=d.y*ct-d.z*st;float z2=d.z*ct+d.y*st;float cy=cos(yaw),sy=sin(yaw);'+
+      'float x3=d.x*cy+z2*sy;float z3=-d.x*sy+z2*cy;float lon=atan(x3,z3);float lat=asin(clamp(y2,-1.,1.));'+
+      'gl_FragColor=texture2D(T,vec2(lon/6.2831853+.5,.5-lat/3.1415927));}';
+    function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o}
+    var pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+    var bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    var al=gl.getAttribLocation(pr,'a');gl.enableVertexAttribArray(al);gl.vertexAttribPointer(al,2,gl.FLOAT,false,0,0);
+    ['asp','z','f','tilt','yaw'].forEach(function(n){U[n]=gl.getUniformLocation(pr,n)});
+    var tex=gl.createTexture(),img=new Image();
+    img.onload=function(){gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.REPEAT);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);loaded=true;if(cur>=0&&scenes[cur]===scene)start()};
+    img.src='assets/ibarra360.jpg';
+  }
+  function size(){var d=Math.min(window.devicePixelRatio||1,touch?1.5:2);W=host.clientWidth||1;H=host.clientHeight||1;asp=W/H;cv.width=Math.round(W*d);cv.height=Math.round(H*d);if(gl)gl.viewport(0,0,cv.width,cv.height)}
+  function labels(){
+    var ct=Math.cos(S.tilt),st=Math.sin(S.tilt),cy=Math.cos(S.yaw),sy=Math.sin(S.yaw);
+    LB.forEach(function(l,i){
+      var lon=(l.u-.5)*6.2831853,lat=(.5-l.v)*3.1415927,x=Math.cos(lat)*Math.sin(lon),y=Math.sin(lat),zz=Math.cos(lat)*Math.cos(lon);
+      var x2=x*cy-zz*sy,z2=x*sy+zz*cy,y3=y*ct+z2*st,z3=z2*ct-y*st,th=Math.acos(Math.max(-1,Math.min(1,z3))),e=lbEls[i];
+      if(th>(S.f>1.5?2.9:1.35)){e.style.opacity=0;return}
+      var s=Math.sin(th)||1e-5,r=S.f*Math.tan(th/S.f),ux=x2/s*r/(S.z*asp),uy=y3/s*r/S.z;
+      if(Math.abs(ux)>1.05||Math.abs(uy)>1.05){e.style.opacity=0;return}
+      e.style.opacity=1;e.style.transform='translate('+((ux*.5+.5)*W)+'px,'+((.5-uy*.5)*H)+'px) translate(-50%,-50%)';
+    });
+  }
+  function frame(t){
+    raf=requestAnimationFrame(frame);var dt=Math.min(.05,(t-last)/1000);last=t;
+    if(tw){var p=Math.min(1,(t-tw.t0)/tw.d),e=ease(p);['f','z','tilt','yaw'].forEach(function(k){S[k]=tw.a[k]+(tw.b[k]-tw.a[k])*e});if(p>=1)tw=null}
+    if(!drag&&!(tw&&tw.b.yaw!==undefined&&S.f<1.9)){
+      if(Math.abs(vel)>.0005){S.yaw+=vel;vel*=.93}
+      else if(!RM){S.yaw+=dt*(S.f>1.5?.28:.045)}
+    }
+    if(gl&&loaded){gl.uniform1f(U.asp,asp);gl.uniform1f(U.z,S.z);gl.uniform1f(U.f,S.f);gl.uniform1f(U.tilt,S.tilt);gl.uniform1f(U.yaw,S.yaw);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)}
+    labels();
+  }
+  function start(){
+    if(!gl||!loaded)return;size();cancelAnimationFrame(raf);last=performance.now();
+    var g=goalPlanet();S.f=g.f;S.z=g.z;S.tilt=g.tilt;S.yaw=0;vel=0;tw=null;bP.classList.add('on');bF.classList.remove('on');
+    clearTimeout(introT);introT=setTimeout(function(){setMode('f',4200)},RM?0:1700);
+    raf=requestAnimationFrame(frame);
+  }
+  scene._on=function(){if(gl){start()}else{size()}};
+  scene._off=function(){cancelAnimationFrame(raf);clearTimeout(introT)};
+  window.addEventListener('resize',function(){if(cur>=0&&scenes[cur]===scene&&gl){size()}});
+  if(!gl){scene.querySelector('.panoctl').style.display='none';hint.textContent='Panorama de Ibarra.'}
+  /* interacción: arrastre + pellizco + rueda */
+  var ptrs={},pd=0;
+  function dist(){var k=Object.keys(ptrs);if(k.length<2)return 0;var a=ptrs[k[0]],b=ptrs[k[1]];return Math.hypot(a.x-b.x,a.y-b.y)}
+  host.addEventListener('pointerdown',function(e){if(!gl)return;ptrs[e.pointerId]={x:e.clientX,y:e.clientY};try{host.setPointerCapture(e.pointerId)}catch(_){}
+    clearTimeout(introT);tw=null;drag=true;vel=0;pd=dist()});
+  host.addEventListener('pointermove',function(e){var p=ptrs[e.pointerId];if(!p||!gl)return;var dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;
+    if(Object.keys(ptrs).length>=2){var d=dist();if(pd){zoomBy(pd/d)}pd=d;return}
+    var pano=S.f<1.5,k=pano?S.z*2.1/H:.006;S.yaw-=dx*k;vel=-dx*k;
+    if(pano)S.tilt=Math.max(-.7,Math.min(1.2,S.tilt-dy*k))});
+  function up(e){delete ptrs[e.pointerId];if(!Object.keys(ptrs).length)drag=null;pd=0}
+  host.addEventListener('pointerup',up);host.addEventListener('pointercancel',up);
+  function zoomBy(m){var pano=S.f<1.5;S.z=Math.max(pano?.5:2,Math.min(pano?1.5:6,S.z*m))}
+  host.addEventListener('wheel',function(e){if(!gl)return;e.preventDefault();clearTimeout(introT);tw=null;zoomBy(Math.exp(e.deltaY*.001))},{passive:false});
+})();
+
 /* ---- reels ---- */
 function netSVG(){
   var r=rng(7),P=[],i;for(i=0;i<16;i++)P.push([14+r()*172,14+r()*172]);
@@ -845,7 +1000,7 @@ document.addEventListener('keydown',function(e){
   else if(k==='r'||k==='R'){var s=scenes[cur];if(s&&s._on)s._on()}
 });
 var sx=null;
-document.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchstart',function(e){sx=(e.touches.length>1||e.target.closest('[data-noswipe],.cv3,.stage3'))?null:e.touches[0].clientX},{passive:true});
 document.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60&&!lb.classList.contains('on'))(dx<0?next:prev)();sx=null});
 
 var tm=document.getElementById('timer'),T0=Date.now();
