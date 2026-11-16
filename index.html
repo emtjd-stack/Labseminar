@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Conectividad ecológica urbana en Ibarra · Labseminar GRSS</title>
-<meta name="description" content="Ponencia Labseminar GRSS: conectividad ecológica urbana en Ibarra (Least-Cost Path y AHP) y aprendizaje basado en problemas con herramientas gratuitas.">
+<title>Conectividad ecológica urbana en Ibarra</title>
+<meta name="description" content="Ponencia: conectividad ecológica urbana en Ibarra (Least-Cost Path y AHP) y aprendizaje basado en problemas con herramientas gratuitas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -133,7 +133,29 @@ em{font-style:normal;color:var(--yellow)}
 .qr canvas,.qr img{display:block}
 
 /* canvas de red */
-.net{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.net{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.42;
+  -webkit-mask-image:linear-gradient(90deg,transparent 28%,#000 64%);mask-image:linear-gradient(90deg,transparent 28%,#000 64%)}
+canvas.net.q{opacity:1;-webkit-mask-image:none;mask-image:none}
+
+/* figuras múltiples */
+.tri{display:flex;gap:clamp(14px,2.4vw,36px);justify-content:center;align-items:flex-start}
+.tri figure{display:grid;gap:10px;justify-items:center;text-align:center;opacity:0;transform:translateY(26px);transition:opacity .8s var(--out),transform .9s var(--out);transition-delay:calc(var(--i)*160ms + .5s)}
+.scene.active .tri figure{opacity:1;transform:none}
+.tri .fig img{height:52vh}
+.tri figcaption{font-size:clamp(12px,2.1vh,20px);color:var(--mute);font-weight:500}
+.fig.wide img{height:auto;max-height:62vh;width:auto;max-width:88vw}
+.fig.mid img{height:auto;width:min(46vw,64vh);max-width:100%}
+.heads{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.heads .stats{grid-template-columns:repeat(2,auto);gap:clamp(18px,3vw,48px)}
+.heads .stat .n{font-size:clamp(28px,6.4vh,64px)}
+.heads .stat .l{font-size:clamp(12px,1.9vh,18px);max-width:20ch}
+
+/* separador entre partes */
+.sep{display:grid;gap:clamp(14px,2.6vh,28px);max-width:30ch}
+.sep .ln{height:3px;width:min(70vw,720px);background:linear-gradient(90deg,var(--yellow),rgba(240,200,0,0));transform-origin:left;transform:scaleX(0);transition:transform 1.8s var(--inout) .5s}
+.scene.active .sep .ln{transform:scaleX(1)}
+.sep .done{font-size:clamp(14px,2.6vh,26px);color:var(--mute);font-weight:500}
+.part{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--yellow);min-width:9em;text-align:center;white-space:nowrap}
 .scene>*:not(.net){position:relative;z-index:1}
 
 /* ================= REEL (teléfono) ================= */
@@ -192,6 +214,7 @@ em{font-style:normal;color:var(--yellow)}
 .hud>*{pointer-events:auto}
 .segs{display:flex;gap:5px;flex:1;max-width:560px}
 .segs button{flex:1;height:18px;background:none;border:0;cursor:pointer;position:relative}
+.segs button.gap{margin-left:14px}
 .segs button::before{content:"";position:absolute;left:0;right:0;top:7px;height:4px;border-radius:3px;background:rgba(255,255,255,.22);transition:background .3s ease-out,transform .3s var(--out)}
 .segs button.past::before{background:rgba(240,200,0,.6)}
 .segs button.cur::before{background:var(--yellow);transform:scaleY(1.5)}
@@ -223,7 +246,6 @@ em{font-style:normal;color:var(--yellow)}
 <!-- 1 PORTADA -->
 <section class="scene" data-t="Portada">
   <canvas class="net" id="net1"></canvas>
-  <div class="eyebrow rv" style="--i:0">Labseminar GRSS</div>
   <h1 class="k">Conectar la ciudad con su <em>naturaleza</em></h1>
   <p class="lead rv" style="--i:2">Conectividad ecológica urbana en Ibarra, Ecuador, con Least-Cost Path y AHP.</p>
   <div class="sub rv" style="--i:3;display:grid;gap:4px;font-weight:500">
@@ -244,8 +266,26 @@ em{font-style:normal;color:var(--yellow)}
   <p class="lead rv" style="--i:4">Ninguna estrategia formal conecta hoy la <b>infraestructura verde y azul</b> dentro de la ciudad.</p>
 </section>
 
-<!-- 3 MÉTODO -->
+<!-- 3 ÁREA DE ESTUDIO -->
+<section class="scene" data-t="Área de estudio">
+  <div class="row" style="height:100%">
+    <div class="grow" style="display:grid;gap:clamp(14px,2.8vh,30px)">
+      <h2 class="k">Una ciudad andina a <em>2.225 m</em> de altitud</h2>
+      <p class="lead rv" style="--i:2">Cinco parroquias urbanas más La Esperanza, 115 km al norte de Quito.</p>
+      <div class="cores rv" style="--i:3">
+        <div class="core" style="--c:var(--water);--pd:.8s">Laguna de Yahuarcocha</div>
+        <div class="core" style="--c:var(--water);--pd:1.2s">Río Tahuando</div>
+        <div class="core" style="--c:var(--green);--pd:1.6s">Loma de Guayabillas</div>
+      </div>
+    </div>
+    <div class="figwrap rvx"><div class="fig"><img data-zoom src="assets/fig1.jpg" alt="Área de estudio: ciudad de Ibarra"></div><span class="zhint">Clic para ampliar</span></div>
+  </div>
+</section>
+
+<!-- 4 MÉTODO -->
 <section class="scene" data-t="Método">
+  <div class="row" style="height:100%">
+  <div class="grow" style="display:grid;gap:clamp(14px,2.8vh,28px)">
   <h2 class="k">Ocho capas. Un solo <em>mapa de resistencia</em>.</h2>
   <div class="chips">
     <span class="chip g1" style="--k:0">NDVI</span><span class="chip" style="--k:1">Elevación</span>
@@ -257,6 +297,9 @@ em{font-style:normal;color:var(--yellow)}
     <div class="pstep rv" style="--i:6"><h3>Resistencia 5 a 100</h3><p>Cada capa en 20 clases por cuantiles.</p></div>
     <div class="pstep rv" style="--i:8"><h3>Pesos con AHP</h3><p>Razón de consistencia 0,089, bajo el umbral de 0,10.</p></div>
     <div class="pstep rv" style="--i:10"><h3>Cost Connectivity</h3><p>Árbol de expansión mínima entre regiones.</p></div>
+  </div>
+  </div>
+  <div class="figwrap rvx"><div class="fig"><img data-zoom src="assets/fig2.jpg" alt="Variables estandarizadas en la escala de resistencia" style="height:auto;width:min(40vw,70vh);max-width:100%"></div><span class="zhint">Clic para ampliar</span></div>
   </div>
 </section>
 
@@ -278,16 +321,19 @@ em{font-style:normal;color:var(--yellow)}
 
 <!-- 5 RESISTENCIA -->
 <section class="scene" data-t="Resistencia">
-  <div class="row" style="height:100%">
-    <div class="grow" style="display:grid;gap:clamp(16px,3vh,32px)">
-      <h2 class="k">Dónde cuesta <em>más moverse</em></h2>
-      <div class="stats rv" style="--i:2">
-        <div class="stat"><div class="n" style="color:#7dffb0"><span data-count="7.7" data-dec="1">0</span><small>%</small></div><div class="l">del área con baja resistencia (menor a 25): ya es verde y agua</div></div>
-        <div class="stat"><div class="n" style="color:#ffa59c"><span data-count="11.1" data-dec="1">0</span><small>%</small></div><div class="l">con alta resistencia (mayor a 75): zonas densamente urbanizadas</div></div>
-      </div>
+  <div class="heads">
+    <h2 class="k" style="max-width:14ch">Dónde cuesta <em>más moverse</em></h2>
+    <div class="stats rv" style="--i:2">
+      <div class="stat"><div class="n" style="color:#7dffb0"><span data-count="7.7" data-dec="1">0</span><small>%</small></div><div class="l">baja resistencia: ya es verde y agua</div></div>
+      <div class="stat"><div class="n" style="color:#ffa59c"><span data-count="11.1" data-dec="1">0</span><small>%</small></div><div class="l">alta resistencia: zonas muy urbanizadas</div></div>
     </div>
-    <div class="figwrap rvx"><div class="fig"><img data-zoom src="assets/fig3.jpg" alt="Superficie de resistencia"></div><span class="zhint">Clic para ampliar</span></div>
   </div>
+  <div class="tri">
+    <figure style="--i:0"><div class="fig"><img data-zoom src="assets/fig3.jpg" alt="Superficie de resistencia"></div><figcaption>Superficie de resistencia</figcaption></figure>
+    <figure style="--i:1"><div class="fig"><img data-zoom src="assets/figs2.jpg" alt="Superficie de costo acumulado"></div><figcaption>Costo acumulado</figcaption></figure>
+    <figure style="--i:2"><div class="fig"><img data-zoom src="assets/figs3.jpg" alt="Raster de dirección de menor costo"></div><figcaption>Dirección de menor costo</figcaption></figure>
+  </div>
+  <span class="sub" style="text-align:center">Clic en cualquier mapa para ampliarlo</span>
 </section>
 
 <!-- 6 CORREDOR -->
@@ -320,7 +366,6 @@ em{font-style:normal;color:var(--yellow)}
 <section class="scene" data-t="Robustez">
   <h2 class="k">Catorce escenarios. La red <em>casi no cambia</em>.</h2>
   <div class="row">
-    <div class="dots"><script>for(var k=0;k<49;k++)document.write('<span style="--k:'+k+'"'+(k===48?' class="alt"':'')+'></span>')</script></div>
     <div class="grow" style="display:grid;gap:clamp(14px,2.6vh,28px)">
       <div class="stats rv" style="--i:3">
         <div class="stat"><div class="n">≥<span data-count="48">0</span><small>de 49</small></div><div class="l">enlaces conservados, incluso sin las capas de especies</div></div>
@@ -328,16 +373,23 @@ em{font-style:normal;color:var(--yellow)}
       </div>
       <p class="lead rv" style="--i:4">Los <b>nodos</b> definen la topología. Los <b>pesos</b> solo ajustan el trazado local. Verificado también en ArcMap.</p>
     </div>
+    <div class="rvx" style="flex:none;display:grid;justify-items:center;gap:10px"><div class="fig mid"><img data-zoom src="assets/fig5.jpg" alt="Análisis de sensibilidad"></div><span class="phint">Clic para ampliar</span></div>
   </div>
 </section>
 
+<!-- 8b DIFERENCIAS -->
+<section class="scene dark" data-t="Diferencias entre escenarios">
+  <h2 class="k">Cuando cambian los pesos, <em>solo se mueve el trazado</em></h2>
+  <div class="rvx" style="display:grid;justify-items:center;gap:10px;margin-top:0"><div class="fig wide"><img data-zoom src="assets/fig6.jpg" alt="Diferencias entre la ruta base y los escenarios"></div><span class="phint">Gris: tramo compartido con la ruta base. Clic para ampliar.</span></div>
+</section>
+
 <!-- 8 CONCLUSIONES + REEL 1 -->
-<section class="scene dark" data-t="Conclusiones">
+<section class="scene dark" id="s-concl" data-t="Conclusiones">
   <div class="row" style="height:100%">
     <div class="grow" style="display:grid;gap:clamp(14px,2.6vh,28px)">
       <h2 class="k">Una base para <em>planificar Ibarra</em></h2>
-      <p class="lead rv" style="--i:2">Flujo reproducible con datos abiertos y herramientas SIG estándar.</p>
-      <p class="lead rv" style="--i:3">Falta validar con datos reales de movimiento de fauna, circuit theory y proyección a 2040.</p>
+      <p class="lead rv" style="--i:2">Una red de <b>50 regiones</b> y <b>49 rutas</b>, estable frente a 14 escenarios.</p>
+      <p class="lead rv" style="--i:3">Flujo reproducible con datos abiertos y herramientas SIG estándar.</p>
     </div>
     <div class="phonewrap rvx"><div class="phone" data-reel="estudio"></div><span class="phint">Reel automático. Clic para reiniciar.</span></div>
   </div>
@@ -345,16 +397,23 @@ em{font-style:normal;color:var(--yellow)}
 
 <!-- 9 COAUTORÍA -->
 <section class="scene" data-t="Coautoría">
-  <h2 class="k">Esta investigación <em>crece en red</em>.</h2>
+  <h2 class="k">Cooperación interinstitucional que <em>fortalece</em> la investigación</h2>
   <div class="duo rv" style="--i:2"><span>UTN</span><span class="line"></span><span>ESPOL</span></div>
-  <div class="rv" style="--i:4">
-    <div class="who">Andrés Velastegui-Montoya</div>
-    <p class="sub" style="margin-top:.3em">Bienvenido como nuevo coautor del equipo. Escuela Superior Politécnica del Litoral.</p>
+  <p class="lead rv" style="--i:4">Dos universidades ecuatorianas, un mismo modelo de conectividad.</p>
+  <div class="sub rv" style="--i:5">Universidad Técnica del Norte y Escuela Superior Politécnica del Litoral</div>
+</section>
+
+<!-- SEPARADOR -->
+<section class="scene dark" id="s-sep" data-t="Separador">
+  <div class="sep">
+    <p class="done rv" style="--i:0">Aquí finaliza la investigación.</p>
+    <div class="ln"></div>
+    <h2 class="k">Aquí comienza el <em>aprendizaje basado en problemas</em></h2>
   </div>
 </section>
 
 <!-- 10 ABP + REEL 2 -->
-<section class="scene dark" data-t="Aprendizaje basado en problemas">
+<section class="scene dark" id="s-abp" data-t="Aprendizaje basado en problemas">
   <div class="row" style="height:100%">
     <div class="grow" style="display:grid;gap:clamp(14px,2.6vh,28px)">
       <div class="eyebrow rv" style="--i:0">Aprendizaje basado en problemas</div>
@@ -384,7 +443,7 @@ em{font-style:normal;color:var(--yellow)}
 </section>
 
 <!-- 12 CIERRE -->
-<section class="scene dark" data-t="Cierre">
+<section class="scene dark" id="s-close" data-t="Cierre">
   <canvas class="net" id="net2"></canvas>
   <div class="eyebrow rv" style="--i:0">Gracias</div>
   <h2 class="k">Explora, practica y <em>conecta tus datos</em>.</h2>
@@ -400,14 +459,22 @@ em{font-style:normal;color:var(--yellow)}
     </div>
   </div>
 </section>
+
+<!-- 16 PREGUNTAS -->
+<section class="scene" id="s-q" data-t="Preguntas">
+  <canvas class="net q" id="qcv"></canvas>
+  <h1 class="k" style="max-width:12ch">Es momento de <em>conversar</em></h1>
+  <p class="lead rv" style="--i:2">Gracias por su atención. Sus preguntas hacen crecer esta red.</p>
+</section>
 </main>
 
 <div class="grain"></div>
 <div id="lb"><span>Clic o Esc para cerrar</span><img alt=""></div>
 
 <div class="hud">
-  <span id="count">1 / 12</span>
+  <span id="count">1 / 16</span>
   <div class="segs" id="segs"></div>
+  <span class="part" id="part"></span>
   <span id="timer" title="Tecla T">00:00</span>
   <div class="nav"><button id="prev" aria-label="Anterior">←</button><button id="next" aria-label="Siguiente">→</button></div>
 </div>
@@ -492,7 +559,36 @@ function initNet(canvas,scene){
   window.addEventListener('resize',function(){if(scene.classList.contains('active'))size()});
 }
 initNet(document.getElementById('net1'),scenes[0]);
-initNet(document.getElementById('net2'),scenes[11]);
+initNet(document.getElementById('net2'),document.getElementById('s-close'));
+
+/* ---- cierre: preguntas hechas de red ---- */
+(function(){
+  var scene=document.getElementById('s-q'),cv=document.getElementById('qcv'),ctx=cv.getContext('2d'),raf=0,t0=0,W=0,H=0,pts=[],dpr=Math.min(window.devicePixelRatio||1,2),mx=0,my=0;
+  function build(){
+    W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    var s=Math.min(H*.92,W*.5),o=document.createElement('canvas');o.width=o.height=240;var c=o.getContext('2d');
+    c.fillStyle='#fff';c.textAlign='center';c.textBaseline='middle';c.font='800 230px "Plus Jakarta Sans",Arial,sans-serif';c.fillText('?',120,128);
+    var d=c.getImageData(0,0,240,240).data,r=rng(11),T=[];
+    for(var y=0;y<240;y+=7)for(var x=0;x<240;x+=7)if(d[(y*240+x)*4+3]>140)T.push([x/240,y/240]);
+    var ox=W*.74-s/2,oy=H*.5-s/2;
+    pts=T.map(function(t,i){return {tx:ox+t[0]*s,ty:oy+t[1]*s,x:r()*W,y:r()*H,ph:r()*6.28,w:i%5===0,del:r()*900}});
+  }
+  function frame(ts){
+    var t=RM?99999:ts-t0,i,j,p,q;ctx.clearRect(0,0,W,H);
+    for(i=0;i<pts.length;i++){p=pts[i];var k=Math.min(1,Math.max(0,(t-p.del)/1800));k=1-Math.pow(1-k,4);
+      var fx=Math.sin(t*.0012+p.ph)*4+(mx-W/2)*.01,fy=Math.cos(t*.0011+p.ph)*4+(my-H/2)*.01;
+      p.cx=p.x+(p.tx-p.x)*k+fx*k;p.cy=p.y+(p.ty-p.y)*k+fy*k}
+    ctx.lineWidth=1.2;
+    for(i=0;i<pts.length;i++){p=pts[i];for(j=i+1;j<pts.length;j++){q=pts[j];var dx=p.cx-q.cx,dy=p.cy-q.cy,dd=dx*dx+dy*dy;
+      if(dd<1500){ctx.strokeStyle='rgba(240,200,0,'+(0.55*(1-dd/1500))+')';ctx.beginPath();ctx.moveTo(p.cx,p.cy);ctx.lineTo(q.cx,q.cy);ctx.stroke()}}}
+    for(i=0;i<pts.length;i++){p=pts[i];ctx.fillStyle=p.w?'#4a9bff':(i%3?'#34c37b':'#F0C800');ctx.beginPath();ctx.arc(p.cx,p.cy,3.4,0,6.28);ctx.fill()}
+    if(!RM)raf=requestAnimationFrame(frame);
+  }
+  scene._on=function(){build();t0=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(frame)};
+  scene._off=function(){cancelAnimationFrame(raf)};
+  scene.addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY});
+  window.addEventListener('resize',function(){if(scene.classList.contains('active'))build()});
+})();
 
 /* ---- reels ---- */
 function netSVG(){
@@ -544,21 +640,26 @@ function Reel(root,frames){
   this.stop=function(){running=false;clearTimeout(timer);fr.forEach(function(f){f.classList.remove('on')});bars.forEach(function(b){b.classList.remove('cur','done')})};
   var self=this;root.addEventListener('click',function(){if(scenes[cur]&&scenes[cur].contains(root))self.start()});
 }
-[7,9].forEach(function(si,n){
+['s-concl','s-abp'].forEach(function(id){
+  var si=scenes.indexOf(document.getElementById(id));
   var ph=scenes[si].querySelector('.phone'),r=new Reel(ph,REELS[ph.dataset.reel]);
   scenes[si]._on=function(){setTimeout(function(){if(scenes[cur]===scenes[si])r.start()},900)};
   scenes[si]._off=function(){r.stop()};
 });
 
 /* ---- navegación ---- */
-scenes.forEach(function(s,i){var b=document.createElement('button');b.setAttribute('aria-label','Escena '+(i+1)+': '+s.dataset.t);b.onclick=function(){go(i)};segs.appendChild(b)});
+var sepIdx=scenes.indexOf(document.getElementById('s-sep')),closeIdx=scenes.indexOf(document.getElementById('s-close'));
+function partOf(i){return i<sepIdx?'Investigación':(i<closeIdx?'Aprendizaje basado en problemas':'')}
+scenes.forEach(function(s,i){var b=document.createElement('button');b.setAttribute('aria-label','Escena '+(i+1)+': '+s.dataset.t);
+  if(i>0&&(i===sepIdx||i===closeIdx))b.className='gap';b.onclick=function(){go(i)};segs.appendChild(b)});
+var partEl=document.getElementById('part');
 function go(i){
   i=Math.max(0,Math.min(scenes.length-1,i));if(i===cur)return;
   if(cur>=0){scenes[cur].classList.remove('active');if(scenes[cur]._off)scenes[cur]._off()}
   cur=i;var s=scenes[i];s.classList.add('active');
   [].forEach.call(s.querySelectorAll('[data-count]'),function(e){if(!e.closest('.phone'))countUp(e,700)});
   if(s._on)s._on();
-  cnt.textContent=(i+1)+' / '+scenes.length;
+  cnt.textContent=(i+1)+' / '+scenes.length;partEl.textContent=partOf(i)==='Aprendizaje basado en problemas'?'ABP':partOf(i);
   [].forEach.call(segs.children,function(b,k){b.classList.toggle('cur',k===i);b.classList.toggle('past',k<i)});
   try{history.replaceState(null,'','#'+(i+1))}catch(e){}
 }
